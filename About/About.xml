@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>TimeSlider</name>
+	<author>AliceCecils</author>
+	<targetVersion>0.19.2009</targetVersion>
+	<description>Slider for time rate, ultra speed key (4) always unlocked as well as step by tick... if you wanted to
+		
+		POWERED BY HARMONY
+		
+		How this works
+		Two Patches, all c#:
+		TickManager_TickRateMultiplier = Slider times a fitted function to make the slider not zoom out of the way
+		TimeControls_DoTimeControlsGUI = redo the renderer as a slider and pause button as well as redo the key bindings with non locked up. keeps tutorial tags and is new or existing game friendly.
+		
+		
+		this mod is in the public domain and will always be available at github.com/alycecil 
+		
+Thanks - Alice</description>
+	<url>https://steamcommunity.com/id/AliceCecils/myworkshopfiles/?appid=294100</url>
+</ModMetaData>
