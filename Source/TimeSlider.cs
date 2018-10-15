@@ -16,6 +16,8 @@ namespace TimeSlider
         private static MethodInfo __PlaySoundOf =
             AccessTools.Method(typeof(TimeControls), "PlaySoundOf", new[] {typeof(TimeSpeed)});
 
+        public static float MinSetting = .03f;
+
         public static void PlaySoundOf(TimeSpeed s)
         {
             __PlaySoundOf?.Invoke(null, new object[] {s});
@@ -84,12 +86,13 @@ namespace TimeSlider
         public static string describe(float timeSetting, ref TimeSpeed outSpeed)
         {
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-            if (timeSetting < .001f)
+            if (timeSetting < MinSetting)
                 return "paused";
+            
+            outSpeed = TimeSpeed.Normal;
+            
             if (timeSetting < .15f)
                 return "snail";
-
-            outSpeed = TimeSpeed.Normal;
 
             if (timeSetting < .35f)
                 return "quarter";

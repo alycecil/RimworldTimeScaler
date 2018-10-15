@@ -52,7 +52,7 @@ namespace TimeSlider
         [HarmonyPostfix]
         static void Postfix(ref float __result, TickManager __instance)
         {
-            if (__result < 0.001f){ 
+            if (__result < 0.04f || __instance.Paused || TimeSlider.timeSetting < TimeSlider.MinSetting){ 
                 __result = 0f;
                 return;
             }

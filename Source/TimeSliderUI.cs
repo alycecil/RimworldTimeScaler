@@ -16,12 +16,6 @@ namespace TimeSlider
             GUI.BeginGroup(timerRect);
             Rect rect = new Rect(0f, 0f, TimeControls.TimeButSize.x, TimeControls.TimeButSize.y);
 
-            TimeSpeed[] CachedTimeSpeedValues = {TimeSpeed.Paused};
-
-            RenderUiIcons(tickManager, CachedTimeSpeedValues, rect);
-
-
-            
             DrawSlider(rect);
 
             if (Find.TickManager.slower.ForcedNormalSpeed)
@@ -39,7 +33,7 @@ namespace TimeSlider
             var old = TimeSlider.timeSetting;
             var outSpeed = TimeSpeed.Normal;
 
-            Rect slider = new Rect(rect.x + rect.width, rect.y, rect.width * 3f, rect.height);
+            Rect slider = new Rect(rect.x, rect.y, rect.width * 4f, rect.height);
 
             string label = TimeSlider.describe(TimeSlider.timeSetting, ref outSpeed);
             var newVal = Widgets.HorizontalSlider(slider, TimeSlider.timeSetting, 0f, TimeSlideMod.latest.maxSlider, false,
@@ -63,41 +57,6 @@ namespace TimeSlider
             
             TimeSlider.timeSetting = newVal;
             return newVal;
-        }
-
-        private static void RenderUiIcons(TickManager tickManager, TimeSpeed[] cachedTimeSpeedValues, Rect rect)
-        {
-            for (int i = 0; i < cachedTimeSpeedValues.Length; i++)
-            {
-                TimeSpeed timeSpeed = cachedTimeSpeedValues[i];
-                if (timeSpeed != TimeSpeed.Ultrafast)
-                {
-                    if (Widgets.ButtonImage(rect, TimeSliderHarmony.SpeedButtonTextures[(int) timeSpeed]))
-                    {
-                        if (timeSpeed == TimeSpeed.Paused)
-                        {
-                            tickManager.TogglePaused();
-                            PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Pause,
-                                KnowledgeAmount.SpecificInteraction);
-                        }
-                        else
-                        {
-                            tickManager.CurTimeSpeed = timeSpeed;
-                            PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.TimeControls,
-                                KnowledgeAmount.SpecificInteraction);
-                        }
-
-                        TimeSlider.PlaySoundOf(tickManager.CurTimeSpeed);
-                    }
-
-                    if (tickManager.CurTimeSpeed == timeSpeed)
-                    {
-                        GUI.DrawTexture(rect, TexUI.HighlightTex);
-                    }
-
-                    rect.x += rect.width;
-                }
-            }
         }
     }
 }
