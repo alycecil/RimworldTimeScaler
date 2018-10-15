@@ -9,14 +9,16 @@ namespace TimeSlider
 {
     public static class TimeSlider
     {
+        
 #if DEBUG
-        private static int i = 0;
+        private static short i = 0;
         #endif
         //redirect to private method
         private static MethodInfo __PlaySoundOf =
             AccessTools.Method(typeof(TimeControls), "PlaySoundOf", new[] {typeof(TimeSpeed)});
 
         public static float MinSetting = .03f;
+        public static bool pause;
 
         public static void PlaySoundOf(TimeSpeed s)
         {
@@ -45,6 +47,9 @@ namespace TimeSlider
         {
             if (timeSpeed == TimeSpeed.Paused)
             {
+#if DEBUG
+                Log.Message("Paused It");
+            #endif
                 timeSetting = 0f;
                 return;
             }
@@ -73,13 +78,13 @@ namespace TimeSlider
                         + 2.340790635f * setting
                         + .003955776659f;
 
-            #if DEBUG
+#if DEBUG
             i += 1;
             i %= 3567;
             if(i==0)
                 Log.Message("Slider at ["+setting+"] TickRate ["+ value+"]");
             #endif
-            
+
             return value;
         }
 
@@ -88,9 +93,9 @@ namespace TimeSlider
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
             if (timeSetting < MinSetting)
                 return "paused";
-            
+
             outSpeed = TimeSpeed.Normal;
-            
+
             if (timeSetting < .15f)
                 return "snail";
 

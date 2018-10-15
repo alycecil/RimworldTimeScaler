@@ -1,3 +1,4 @@
+using System;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -28,7 +29,7 @@ namespace TimeSlider
             UIHighlighter.HighlightOpportunity(timerRect, "TimeControls");
         }
 
-        private static float DrawSlider(Rect rect)
+        private static void DrawSlider(Rect rect)
         {
             var old = TimeSlider.timeSetting;
             var outSpeed = TimeSpeed.Normal;
@@ -36,7 +37,7 @@ namespace TimeSlider
             Rect slider = new Rect(rect.x, rect.y, rect.width * 4f, rect.height);
 
             string label = TimeSlider.describe(TimeSlider.timeSetting, ref outSpeed);
-            var newVal = Widgets.HorizontalSlider(slider, TimeSlider.timeSetting, 0f, TimeSlideMod.latest.maxSlider, false,
+            var newVal = Widgets.HorizontalSlider(slider, old, 0f, TimeSlideMod.latest.maxSlider, false,
                 label);
             
 
@@ -54,9 +55,13 @@ namespace TimeSlider
                         outSpeed; //carry the helper around  MVP : Able to adjusted CutTimeSpeed to nearest reference
                 }
             }
-            
-            TimeSlider.timeSetting = newVal;
-            return newVal;
+
+            if (Math.Abs(newVal - old) > .6e-6)
+            {
+                TimeSlider.timeSetting = newVal;
+            }
+
+            return;
         }
     }
 }

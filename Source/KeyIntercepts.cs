@@ -7,15 +7,18 @@ namespace TimeSlider
 {
     public class KeyIntercepts
     {
+        private static float last = 0f;
+
         public static void KeyMashes()
         {
             if (Event.current.type == EventType.KeyDown)
             {
+                var speed = Find.TickManager.CurTimeSpeed;
                 if (KeyBindingDefOf.TogglePause.KeyDownEvent)
                 {
-                    Log.Message("PAUSE!");
-                    Find.TickManager.TogglePaused();
-                    TimeSlider.setTimeSettingForTimeSpeed(TimeSpeed.Paused);
+                    TogglePause();
+
+
                     PlaySound();
                     PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Pause,
                         KnowledgeAmount.SpecificInteraction);
@@ -58,12 +61,30 @@ namespace TimeSlider
                     Event.current.Use();
                 }
 
-                else if (KeyBindingDefOf.Dev_TickOnce.KeyDownEvent && Find.TickManager.CurTimeSpeed == TimeSpeed.Paused)
+                else if (KeyBindingDefOf.Dev_TickOnce.KeyDownEvent && speed == TimeSpeed.Paused)
                 {
+                    Log.Message("TRiGgeR Single Tick");
                     Find.TickManager.DoSingleTick();
                     SoundDefOf.Clock_Stop.PlayOneShotOnCamera(null);
                 }
             }
+        }
+
+        private static void TogglePause()
+        {
+            TimeSlider.pause = !TimeSlider.pause;
+            if (TimeSlider.pause)
+            {
+                last = TimeSlider.timeSetting;
+                TimeSlider.setTimeSettingForTimeSpeed(TimeSpeed.Paused);
+            }
+            else
+            {
+                TimeSlider.timeSetting = last;
+            }
+                
+
+            Find.TickManager.TogglePaused();
         }
 
         private static void PlaySound()
